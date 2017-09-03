@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SimplestChatEver</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .container {
+                height: 100vh;
+                display: block;
+                width: 100%;
+            }
+            .card {
+                display: table;
+                height: 80vh;
+                padding: 15px;
+                box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+                border-radius: 0.4% 0.4%;
+                min-width: 70vw;
+                margin: 0 auto;
+            }
+            .card h2 {
+                display: table;
+                margin: 0 auto;
+            }
+            .messages {
+                overflow-y: auto;
+                height: 60vh;
+            }
+            
+            .inputs {
+                top: 60px;
+                position: relative;
+                display: table;
+                margin: 0 auto;
+                width: 80%;
+            }
+            .inputs input {
+                position: relative;
+                width: 70%;
+            }
+            .inputs button {
+                position: relative;
+                width: 19%;
+                margin-left: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="card">
+                <h2>Bem vindo ao SimplestChatEver</h2>
+                <hr/>
+                <div class="messages"></div>
+                <div class="inputs">
+                    <input type="text" name="message"/>
+                    <button type="button" id="send">Enviar</button>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        window.onload = function () {
+            var websocket = new WebSocket("ws://localhost:2007/simplestchatever/talk");
+            websocket.onopen = function () {
+                console.log("Conectado com sucesso ao endpoint '/talk'.");
+            }
+
+            websocket.onmessage = function (message) {
+                var ms = document.getElementsByClassName("messages")[0];
+                ms.innerHTML += "<p>" + message.data + "</p>";
+            }
+            
+            var _send = document.getElementById("send");
+            _send.addEventListener("click", function(e){
+                var m = document.getElementsByName("message")[0];
+                websocket.send(m.value);
+                m.value = "";                
+            });
+        }
+    </script>
+</html>

@@ -3,7 +3,6 @@ package br.com.andtankian.blog.websockets1.impl;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
@@ -30,7 +29,7 @@ public class SimplestChatEverEndpoint {
      * @param config
      */
     @OnOpen
-    public void onOpen(Session session, EndpointConfig config) {
+    public void onOpen(Session session) {
         /*Adicionando a nova sessão o conjunto de sessões.*/
         sessions.add(session);
     }

@@ -61,17 +61,38 @@
     </body>
     <script>
         window.onload = function () {
+            /*Vamos criar uma variável para armazenar a estrutura websocket
+             *e inicializar ela dizendo que será uma nova websocket conectada
+             *a este endereço. */
             var websocket = new WebSocket("ws://localhost:2007/simplestchatever/talk");
+            
+            /**
+             * Função para ser executada se a conexão foi aberta com sucesso.
+             * @returns {undefined}
+             */
             websocket.onopen = function () {
                 console.log("Conectado com sucesso ao endpoint '/talk'.");
             }
-
+            
+            /**
+             * Função para ser executada quando o cliente receber uma mensagem
+             * do servidor.
+             * A função também exibe essa mensagem numa div.
+             * @param {type} message
+             * @returns {undefined}
+             */
             websocket.onmessage = function (message) {
                 var ms = document.getElementsByClassName("messages")[0];
                 ms.innerHTML += "<p>" + message.data + "</p>";
             }
             
+            /*Vamos configurar um listener pra quando o botão "enviar" for pressionado.*/
             var _send = document.getElementById("send");
+            
+            /**
+             * Caso seja pressionado, pegar o valor do input e enviar para o servidor
+             * através da função SEND do objeto websocket.
+             */
             _send.addEventListener("click", function(e){
                 var m = document.getElementsByName("message")[0];
                 websocket.send(m.value);
